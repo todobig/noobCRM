@@ -1,0 +1,2 @@
+# noobCRM
+a basic crm 
