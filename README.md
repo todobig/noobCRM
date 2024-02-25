@@ -2,9 +2,15 @@
 a basic crm
 ----------------
 
-mkdir 1billion
-cd 1billion
-clone and extract 
+#clone and compile the main.go 
+go build -o noobCRM main.go
+./noobCRM
+
+
+#pre requisites
+mongoDB 
+
+
 
 -----------------------------------------------------
 API Documentation
