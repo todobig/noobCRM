@@ -46,7 +46,7 @@ curl -X POST http://vpsIP:8080/leads \
             "email": "john@example.com"
          }'
 
-
+--------------------------------------------------------------------------------------
 
 2. Get Lead
 URL: /leads?phone=<phone_number>
