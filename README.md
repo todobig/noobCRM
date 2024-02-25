@@ -2,9 +2,9 @@
 a basic crm
 ----------------
 
-#clone and compile the main.go 
-go build -o noobCRM main.go
-./noobCRM
+###clone and compile the main.go 
+# go build -o noobCRM main.go
+# ./noobCRM
 
 
 #pre requisites
