@@ -103,6 +103,4 @@ Query Parameters:
 phone: The phone number of the lead to delete.
 Response: 200 OK if successful, along with a success message.
 Example:
-bash
-Copy code
 curl -X DELETE http://vpsIP:8080/leads?phone=1234567890
