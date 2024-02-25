@@ -1,6 +1,12 @@
 # noobCRM
-a basic crm 
+a basic crm
+----------------
 
+mkdir 1billion
+cd 1billion
+clone and extract 
+
+-----------------------------------------------------
 API Documentation
 Base URL
 The base URL for all endpoints is http://vpsIP:8080.
@@ -23,6 +29,8 @@ Request Body: JSON object representing the lead information.
     "email": "john@example.com"
 }
 Response: 201 Created if successful, along with the added lead object.
+
+
 Example:
 
 curl -X POST http://vpsIP:8080/leads \
@@ -37,6 +45,9 @@ curl -X POST http://vpsIP:8080/leads \
             "phone": "1234567890",
             "email": "john@example.com"
          }'
+
+
+
 2. Get Lead
 URL: /leads?phone=<phone_number>
 Method: GET
@@ -45,8 +56,10 @@ Query Parameters:
 phone: The phone number of the lead to retrieve.
 Response: 200 OK if successful, along with the lead object.
 Example:
-
 curl -X GET http://vpsIP:8080/leads?phone=1234567890
+
+
+
 3. Update Lead
 URL: /leads?phone=<phone_number>
 Method: PUT
