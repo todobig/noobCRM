@@ -1,5 +1,5 @@
-# noobCRM
-a basic crm
+# noobCRM [golang + mongoDB]
+a basic crm - add / retrieve / update / delete
 ----------------
 
 ###clone and compile the main.go 
