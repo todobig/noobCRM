@@ -58,7 +58,7 @@ Response: 200 OK if successful, along with the lead object.
 Example:
 curl -X GET http://vpsIP:8080/leads?phone=1234567890
 
-
+-------------------------------------------------------------------------------------
 
 3. Update Lead
 URL: /leads?phone=<phone_number>
@@ -91,6 +91,10 @@ curl -X PUT http://vpsIP:8080/leads?phone=1234567890 \
             "zip": "10001",
             "email": "john@example.com"
          }'
+
+
+--------------------------------------------------------------------------------------
+
 4. Delete Lead
 URL: /leads?phone=<phone_number>
 Method: DELETE
