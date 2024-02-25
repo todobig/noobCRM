@@ -64,6 +64,7 @@ Response: 200 OK if successful, along with the lead object.
 Example:
 curl -X GET http://vpsIP:8080/leads?phone=1234567890
 
+{"first_name":"John","last_name":"Doe","address":"123 Main St","city":"New York","state":"NY","zip":"10001","phone":"1234567890","email":"john@example.com"}
 -------------------------------------------------------------------------------------
 
 3. Update Lead
@@ -110,3 +111,5 @@ phone: The phone number of the lead to delete.
 Response: 200 OK if successful, along with a success message.
 Example:
 curl -X DELETE http://vpsIP:8080/leads?phone=1234567890
+
+{"message":"Lead deleted successfully"}
