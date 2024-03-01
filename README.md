@@ -15,7 +15,7 @@ mongoDB
 -----------------------------------------------------
 API Documentation
 Base URL
-The base URL for all endpoints is http://vpsIP:8080.
+The base URL for all endpoints is https://vpsIP:8080.
 
 Endpoints
 1. Add Lead
@@ -39,7 +39,7 @@ Response: 201 Created if successful, along with the added lead object.
 
 Example:
 ```
-curl -X POST http://vpsIP:8080/leads \
+curl -X POST https://vpsIP:8080/leads \
      -H "Content-Type: application/json" \
      -d '{
             "first_name": "John",
@@ -63,7 +63,7 @@ phone: The phone number of the lead to retrieve.
 Response: 200 OK if successful, along with the lead object.
 Example:
 ```
-curl -X GET http://vpsIP:8080/leads?phone=1234567890
+curl -X GET https://vpsIP:8080/leads?phone=1234567890
 
 {"first_name":"John","last_name":"Doe","address":"123 Main St","city":"New York","state":"NY","zip":"10001","phone":"1234567890","email":"john@example.com"}
 ```
@@ -89,7 +89,7 @@ Request Body: JSON object representing the updated lead information.
 Response: 200 OK if successful, along with the updated lead object.
 Example:
 ```
-curl -X PUT http://vpsIP:8080/leads?phone=1234567890 \
+curl -X PUT https://vpsIP:8080/leads?phone=1234567890 \
      -H "Content-Type: application/json" \
      -d '{
             "first_name": "John",
@@ -113,7 +113,7 @@ phone: The phone number of the lead to delete.
 Response: 200 OK if successful, along with a success message.
 Example:
 ```
-curl -X DELETE http://vpsIP:8080/leads?phone=1234567890
+curl -X DELETE https://vpsIP:8080/leads?phone=1234567890
 
 {"message":"Lead deleted successfully"}
 ```
