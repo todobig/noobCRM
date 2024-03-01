@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+	"os" // Add this line to import the os package
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -49,9 +50,17 @@ func main() {
 	router.PUT("/leads", func(c *gin.Context) { leadHandler.UpdateLead(c.Writer, c.Request) })
 	router.DELETE("/leads", func(c *gin.Context) { leadHandler.DeleteLead(c.Writer, c.Request) })
 
-	// Run the server
-	port := ":8080"
-	log.Printf("Server is running on port %s", port)
-	log.Fatal(router.Run(port))
-}
+	// Retrieve certificate and key file paths from environment variables
+	certFile := os.Getenv("CERT_FILE_PATH")
+	keyFile := os.Getenv("KEY_FILE_PATH")
 
+	// Check if the environment variables are set
+	if certFile == "" || keyFile == "" {
+		log.Fatal("SSL certificate or key file path environment variables are not set")
+	}
+
+	// Run the server with TLS
+	port := ":8080"
+	log.Printf("Server is running on port %s with SSL", port)
+	log.Fatal(router.RunTLS(port, certFile, keyFile))
+}
