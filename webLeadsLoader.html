@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leads Loader</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Leads Loader</h1>
+    <input type="file" id="csvFileInput">
+    <button onclick="handleFile()">Upload CSV</button>
+
+    <div id="mappingFields">
+        <!-- Mapping fields will be dynamically populated here -->
+    </div>
+
+    <button onclick="loadLeads()">Load Leads</button>
+
+    <div id="log"></div>
+
+    <script>
+        const baseURL = 'https://crm.todobig.com:8080';
+        let headers = [];
+
+        function handleFile() {
+            const fileInput = document.getElementById('csvFileInput');
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const csv = e.target.result;
+                headers = csv.split('\n')[0].split(',');
+                populateMappingFields();
+            };
+            reader.readAsText(file);
+        }
+
+        function populateMappingFields() {
+            const mappingFields = document.getElementById('mappingFields');
+            mappingFields.innerHTML = '';
+            headers.forEach(header => {
+                const label = document.createElement('label');
+                label.innerHTML = `Map ${header}: `;
+                const select = document.createElement('select');
+                select.setAttribute('data-header', header);
+                const defaultOption = document.createElement('option');
+                defaultOption.text = 'Select attribute';
+                defaultOption.disabled = true;
+                defaultOption.selected = true;
+                select.appendChild(defaultOption);
+                const attributes = ['first_name', 'last_name', 'address', 'city', 'state', 'zip', 'phone', 'email'];
+                attributes.forEach(attribute => {
+                    const option = document.createElement('option');
+                    option.text = attribute;
+                    option.value = attribute;
+                    select.appendChild(option);
+                });
+                mappingFields.appendChild(label);
+                mappingFields.appendChild(select);
+                mappingFields.appendChild(document.createElement('br'));
+            });
+        }
+
+        async function loadLeads() {
+            const fileInput = document.getElementById('csvFileInput');
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = async function (e) {
+                const csv = e.target.result;
+                const rows = csv.split('\n');
+                rows.shift(); // Remove headers
+                let successCount = 0;
+                let failCount = 0;
+                for (const row of rows) {
+                    if (row.trim() !== '') {
+                        const lead = {};
+                        const columns = row.split(',');
+                        const mappingInputs = document.querySelectorAll('#mappingFields select');
+                        mappingInputs.forEach((select, index) => {
+                            const header = select.getAttribute('data-header');
+                            const selectedAttribute = select.value;
+                            if (selectedAttribute !== 'Select attribute') {
+                                lead[selectedAttribute] = columns[index];
+                            }
+                        });
+                        if (Object.keys(lead).length !== 0) {
+                            try {
+                                await sendLead(lead, successCount, failCount);
+                                successCount++;
+                            } catch (error) {
+                                console.error(error);
+                                failCount++;
+                            }
+                        }
+                    }
+                }
+                alert(`Leads loaded:\nSuccess: ${successCount}\nFail: ${failCount}\nTotal: ${successCount + failCount}`);
+            };
+            reader.readAsText(file);
+        }
+
+        function sendLead(lead, successCount, failCount) {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: `${baseURL}/leads`,
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(lead),
+                    success: function (response) {
+                        const log = document.getElementById('log');
+                        log.innerHTML += `<p>Lead ${successCount + failCount + 1}: Successfully loaded. Response: ${JSON.stringify(response)}</p>`;
+                        resolve();
+                    },
+                    error: function (xhr, status, error) {
+                        const log = document.getElementById('log');
+                        log.innerHTML += `<p>Lead ${successCount + failCount + 1}: Failed to load. Error: ${error}</p>`;
+                        reject(error);
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
